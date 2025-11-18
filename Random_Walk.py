@@ -30,11 +30,16 @@ class Point:
         self.y = y
 
     # This method changes the Point's coordinates (its position).
-    def move(self):
-        # The Point randomly moves in the x-direction by adding one of the 'possibilities' (1, 0, or -1).
-        self.x += random.choice(possibilities)
-        # The Point also randomly moves in the y-direction.
-        self.y += random.choice(possibilities)
+    # here i add the required code changes max x , max y
+    def move(self, max_x, max_y ):
+        # A-Calculating the Intended Move 
+        new_x = self.x + random.choice(possibilities)
+        
+        new_y = self.y + random.choice(possibilities)
+        # B- Applying the Clamping Logic
+        self.x = min(max_x - 1, max(0, new_x))
+        self.y = min(max_y - 1, max(0, new_y))
+
 
     # This method simply prints the Point's current coordinates to the console.
     def display(self):
@@ -65,7 +70,7 @@ class Grid:
         for i in range(self.width):
             # 'j' represents the column (y-coordinate).
             for j in range(self.height):
-                marker = " "  # Start by assuming the cell is empty (marked by a space).
+                marker = "_"  # add this "-" to better visualise the grid
 
                 # Now, check every Point in the 'self.points' list.
                 for p in self.points:
@@ -105,9 +110,9 @@ while True:
     # 1. Display the current state of the grid.
     G1.display_grid()
 
-    # 2. Move the points to a new, random location.
-    p1.move()
-    p2.move()
+    # 2. this is changed too 
+    p1.move(G1.width, G1.height)
+    p2.move(G1.width, G1.height)
 
     # 3. Pause the program for 0.5 seconds so the user can see the movement.
     time.sleep(0.5)
